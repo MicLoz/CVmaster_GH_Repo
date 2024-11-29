@@ -29,6 +29,9 @@ job_sites_list_box = Fsg.Listbox(values=[site['url'] for site in load_job_sites(
                                  key='job_sites_listbox_ky', size=[45, 10],
                                  enable_events=True)  # Renamed for clarity
 
+#Variables
+selected_index = 0
+
 # Create the window layout
 window = Fsg.Window('Job Sites Configuration',
                     layout=[[label],
@@ -72,22 +75,14 @@ while True:
             window["location_input_key"].update(value=selected_job_site.get('location', ''))
             print('othjerthing')
 
-    elif event == "Edit Job Site":
-        # Get selected job site from listbox
-        selected_index = values.get("job_sites_listbox_ky", [None])[0]
-
-        if selected_index is not None:
-            # Find the corresponding job site in the list
-            updated_url = values['job_site_url_input']
-            updated_location = values['location_input_key']
-            job_sites[selected_index] = {'url': updated_url,
-                                         'location': updated_location}  # Update the job site in the list
-            save_job_sites(job_sites)  # Save the updated list back to the JSON file
-            job_sites_list_box.update(values=[site['url'] for site in job_sites])  # Refresh the listbox
-            window["job_site_url_input"].update(value='')  # Clear the input fields after editing
-            window["location_input_key"].update(value='')
-        else:
-            Fsg.popup("Select an item from the list to edit.")
+    elif event == "edit_button_key":
+        # Find the corresponding job site in the list
+        updated_url = values['job_site_url_input']
+        updated_location = values['location_input_key']
+        job_sites[selected_index] = {'url': updated_url,
+                                     'location': updated_location}  # Update the job site in the list
+        save_job_sites(job_sites)  # Save the updated list back to the JSON file
+        job_sites_list_box.update(values=[site['url'] for site in job_sites])  # Refresh the listbox
 
     elif event == Fsg.WIN_CLOSED:
         break
