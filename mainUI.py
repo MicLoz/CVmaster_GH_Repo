@@ -17,17 +17,30 @@ def save_job_sites(job_sites):
         json.dump(job_sites, file, indent=4)  # Save the job sites as pretty-printed JSON
 
 # UI Elements
+#region Labels Region
 label = Fsg.Text("Job Site Configuration")
 url_label = Fsg.Text("Enter Job Site URL")
-url_input = Fsg.InputText(tooltip="Job site URL", key='job_site_url_input')  # Renamed for clarity
+search_term_label = Fsg.Text("Enter Job Search Term:")
 location_label = Fsg.Text("Enter Location (optional)")
+job_sites_list_label = Fsg.Text("Current Job Sites:")
+#endregion
+
+#region Text Input Boxes
+url_input = Fsg.InputText(tooltip="Job site URL", key='job_site_url_input')
 location_input = Fsg.InputText(tooltip="Location for search", key='location_input_key')
+search_term_input = Fsg.InputText(tooltip="Search term for job sites", key='search_term_input')
+#endregion
+
+#region Buttons
 add_button = Fsg.Button("Add Job Site")
 edit_button = Fsg.Button("Edit Job Site", key="edit_button_key")
-job_sites_list_label = Fsg.Text("Current Job Sites:")
+#endregion
+
+#region List Boxes
 job_sites_list_box = Fsg.Listbox(values=[site['url'] for site in load_job_sites()],
-                                 key='job_sites_listbox_ky', size=[45, 10],
-                                 enable_events=True)  # Renamed for clarity
+                                 key='job_sites_listbox_ky', size=(45, 10),
+                                 enable_events=True)
+#endregion
 
 #Variables
 selected_index = 0
@@ -37,6 +50,7 @@ window = Fsg.Window('Job Sites Configuration',
                     layout=[[label],
                             [url_label, url_input],
                             [location_label, location_input],
+                            [search_term_label, search_term_input],
                             [add_button, edit_button],
                             [job_sites_list_label],
                             [job_sites_list_box]],

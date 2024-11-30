@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ae32e59-51ce-4c8e-ab16-1f1e55aeb0b2" name="Changes" comment="Fixed bug with locations not displaying correctly.">
+    <list default="true" id="9ae32e59-51ce-4c8e-ab16-1f1e55aeb0b2" name="Changes" comment="Got all the list functionality and editing working correctly">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainUI.py" afterDir="false" />
     </list>
@@ -107,7 +107,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732923337551</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Got all the list functionality and editing working correctly">
+      <option name="closed" value="true" />
+      <created>1732924350780</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1732924350780</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -127,6 +135,7 @@
     <MESSAGE value="Saving and loading Jobsites from a JSON file with location" />
     <MESSAGE value="Added edit functionality and made sure key's for any key value pair's are distinct from the variable names in which they may reside, to make sure I can diffrentiate between them." />
     <MESSAGE value="Fixed bug with locations not displaying correctly." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed bug with locations not displaying correctly." />
+    <MESSAGE value="Got all the list functionality and editing working correctly" />
+    <option name="LAST_COMMIT_MESSAGE" value="Got all the list functionality and editing working correctly" />
   </component>
 </project>
