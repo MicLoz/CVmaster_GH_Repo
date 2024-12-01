@@ -2,9 +2,8 @@ import FreeSimpleGUI as Fsg
 import json
 import webbrowser
 from urllib.parse import quote, urljoin
-
-#These are going into a separate file once they are working:
 import requests
+from bs4 import BeautifulSoup
 
 FILE_PATH = 'job_sites.json'
 
@@ -28,18 +27,31 @@ def set_input_box_values(selected_job_site_arg):
     window["location_input_key"].update(value=selected_job_site_arg.get('location', ''))
     window["url_search_pref_key"].update(value=selected_job_site_arg.get('searchPrefix', ''))
     window["url_search_suff_key"].update(value=selected_job_site_arg.get('searchSuffix', ''))
+    window["rep_srch_char"].update(value=selected_job_site_arg.get('replaceSpacesWith', ''))
+    window["cap_dropD"].update(value=selected_job_site_arg.get('capitalisationRule', ''))
+
+def get_input_box_values():
+    get_input_url = values['job_site_url_input']  # Use the renamed key here
+    get_input_location = values['location_input_key']
+    get_input_search_pre = values['url_search_pref_key']
+    get_input_search_suf = values['url_search_suff_key']
+    get_input_space_rep = values['rep_srch_char']
+    get_input_cap_rule = values['cap_dropD']
+    return [get_input_url, get_input_location, get_input_search_pre, get_input_search_suf, get_input_space_rep,
+            get_input_cap_rule]
 
 def blank_out_input_box_values():
     window["job_site_url_input"].update(value='')
     window["location_input_key"].update(value='')
     window["url_search_pref_key"].update(value='')
     window["url_search_suff_key"].update(value='')
+    window["rep_srch_char"].update(value='')
+    window["cap_dropD"].update(value='')
 
-def fetch_webpage(url):
+def fetch_webpage(url ,headers_arg):
     #Fetch the webpage
-    # Fetch the webpage
     try:
-        response = requests.get(url)
+        response = requests.get(url, headers=headers_arg)
         response.raise_for_status()  # Raise an HTTPError for bad responses (4xx and 5xx)
         return response.text
     except requests.exceptions.RequestException as e:
@@ -56,6 +68,8 @@ location_label = Fsg.Text("Enter Location (optional)")
 job_sites_list_label = Fsg.Text("Current Job Sites:")
 search_prefix_label = Fsg.Text("URL Search Prefix")
 search_suffix_label = Fsg.Text("URL Search Suffix")
+replace_space_label = Fsg.Text("Replace spaces in search term with:")
+search_caps_rule_label = Fsg.Text("Search Caps Rule")
 #endregion
 
 #region Text Input Boxes
@@ -66,6 +80,12 @@ url_search_pref_input = Fsg.InputText(tooltip="Portion of URL that goes before s
                                       key='url_search_pref_key', size=(30,10))
 url_search_suff_input = Fsg.InputText(tooltip="Portion of URL that goes after search term",
                                       key='url_search_suff_key', size=(30,10))
+replace_search_char = Fsg.InputText(tooltip="The char. to replace spaces with in your search term",
+                                    key="rep_srch_char", size=(1,10))
+#endregion
+
+#region InputCombo / Dropdowns
+caps_rule_dropdwn = Fsg.InputCombo(values=['All Lowercase'], key="cap_dropD")
 #endregion
 
 #region Buttons
@@ -91,6 +111,7 @@ window = Fsg.Window('Job Sites Configuration',
                             [search_prefix_label, url_search_pref_input, search_suffix_label, url_search_suff_input],
                             [location_label, location_input],
                             [search_term_label, search_term_input, search_button],
+                            [replace_space_label, replace_search_char, search_caps_rule_label, caps_rule_dropdwn],
                             [add_button, edit_button, delete_button],
                             [job_sites_list_label],
                             [job_sites_list_box]],
@@ -107,14 +128,12 @@ while True:
     print(3, values["job_site_url_input"])  # Print the URL input field value
 
     if event == "Add Job Site":
-        url = values['job_site_url_input']  # Use the renamed key here
-        location = values['location_input_key']
-        search_pre = values['url_search_pref_key']
-        search_suf = values['url_search_suff_key']
+        url, location, search_pre, search_suf, space_rep, cap_rule = get_input_box_values()
         if url:
             # Create a new job site entry with URL and location (optional)
             new_job_site = {'url': url, 'location': location, 'searchPrefix': search_pre,
-                            'searchSuffix': search_suf}
+                            'searchSuffix': search_suf, 'replaceSpacesWith': space_rep,
+                            'capitalisationRule': cap_rule}
             job_sites.append(new_job_site)  # Add to job sites list
             save_job_sites(job_sites)  # Save updated list to JSON file
             job_sites_list_box.update(values=[site['url'] for site in job_sites])  # Update the listbox
@@ -131,15 +150,17 @@ while True:
 
     elif event == "edit_button_key":
         # Find the corresponding job site in the list
-        updated_url = values['job_site_url_input']
-        updated_location = values['location_input_key']
-        updated_search_pre = values['url_search_pref_key']
-        updated_search_suf = values['url_search_suff_key']
+        (updated_url, updated_location, updated_search_pre,
+         updated_search_suf, updated_space_rep, updated_cap_rule) = get_input_box_values()
 
+        # Update the job site in the list
         job_sites[selected_index] = {'url': updated_url,
                                      'location': updated_location,
                                      'searchPrefix': updated_search_pre,
-                                     'searchSuffix': updated_search_suf}  # Update the job site in the list
+                                     'searchSuffix': updated_search_suf,
+                                     'replaceSpacesWith': updated_space_rep,
+                                     'capitalisationRule': updated_cap_rule}
+
         save_job_sites(job_sites)  # Save the updated list back to the JSON file
         job_sites_list_box.update(values=[site['url'] for site in job_sites])  # Refresh the listbox
 
@@ -159,7 +180,7 @@ while True:
                 blank_out_input_box_values()
 
     elif event == "search_button_key":
-        search_term = values["search_term_input_key"].strip()
+        search_term = values["search_term_input_key"]
 
         # Validation
         if not search_term:
@@ -171,19 +192,35 @@ while True:
 
         # Construct and open URLs
         for site in job_sites:
-            full_url = f"{site['url']}{site.get('searchPrefix', '')}{search_term}{site.get('searchSuffix', '')}"
-            search_path = f"{site.get('searchPrefix', '')}{search_term}{site.get('searchSuffix', '')}"
-            print(3.1, full_url)
-            print(3.2, search_path)
+            site_cap_rule = f"{site.get('capitalisationRule', '')}"
+            space_rep_char = f"{site.get('replaceSpacesWith', '')}"
+            if site_cap_rule == "All Lowercase":
+                search_term = search_term.lower()
+                print(2.1, search_term)
+            if space_rep_char != "":
+                search_term = search_term.replace(" ",space_rep_char)
+                print(2.2, search_term)
+
+            #Populate vars with Portions of full URL.
+            site_url = f"{site['url']}"
+            srch_pre = f"{site.get('searchPrefix', '')}"
+            srch_suf = f"{site.get('searchSuffix', '')}"
+
+            search_path = srch_pre + search_term + srch_suf
+            full_url = site_url + search_path
+
+            print(3.1, search_path)
+            print(3.2, full_url)
             webbrowser.open(full_url)
 
-            #Encode the path for webScrape
-            # Properly encode the search path
-            encoded_path = quote(search_path, safe="/:?=&")
-            base_url = f"{site['url']}"
-            full_url_forWS = urljoin(base_url, encoded_path)
-            print(3.3, "Encoded URL:", full_url_forWS)
-            fetch_webpage(full_url_forWS)
+            encoded_full_url = quote(full_url, safe=":/?=&")
+            print(3.3, encoded_full_url)
+
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+            }
+
+            webpage_html = fetch_webpage(full_url, headers)
 
     elif event == Fsg.WIN_CLOSED:
         break
