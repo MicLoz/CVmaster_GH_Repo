@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ae32e59-51ce-4c8e-ab16-1f1e55aeb0b2" name="Changes" comment="Successfully got a response from web server">
+    <list default="true" id="9ae32e59-51ce-4c8e-ab16-1f1e55aeb0b2" name="Changes" comment="Getting back the Job Title and Description">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainUI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webScrape.py" beforeDir="false" afterPath="$PROJECT_DIR$/webScrape.py" afterDir="false" />
@@ -164,7 +164,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733086588816</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Getting back the Job Title and Description">
+      <option name="closed" value="true" />
+      <created>1733088635105</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1733088635105</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -190,6 +198,7 @@
     <MESSAGE value="Completed Job Search Functionality" />
     <MESSAGE value="Trying to do WebScraping, currently getting an error" />
     <MESSAGE value="Successfully got a response from web server" />
-    <option name="LAST_COMMIT_MESSAGE" value="Successfully got a response from web server" />
+    <MESSAGE value="Getting back the Job Title and Description" />
+    <option name="LAST_COMMIT_MESSAGE" value="Getting back the Job Title and Description" />
   </component>
 </project>

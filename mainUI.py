@@ -4,6 +4,10 @@ import webbrowser
 from urllib.parse import quote, urljoin
 import requests
 from bs4 import BeautifulSoup
+import logging
+
+# Setup logging for Debugging
+logging.basicConfig(level=logging.DEBUG)
 
 FILE_PATH = 'job_sites.json'
 
@@ -49,16 +53,24 @@ def blank_out_input_box_values():
     window["cap_dropD"].update(value='')
 
 def fetch_webpage(url ,headers_arg):
-    #Fetch the webpage
     try:
+        logging.debug(f"LOG1: Sending request to {url}")
         response = requests.get(url, headers=headers_arg)
-        response.raise_for_status()  # Raise an HTTPError for bad responses (4xx and 5xx)
-        return response.text
+
+        if response.status_code == 200:
+            logging.debug(f"LOG2: Request successful, status code: {response.status_code}")
+            return response.text  # Returning the raw text content of the response
+        else:
+            logging.error(f"LOG3: Request failed with status code {response.status_code}")
+            return None
     except requests.exceptions.RequestException as e:
-        print("Error fetching the webpage:", e)
+        logging.error(f"Error fetching the webpage: {e}")
         return None
 
 def parse_webpage(response):
+    if response is None:
+        return {"Job Title": None, "Job Link": None}  # Safe handling of None response
+
     soup = BeautifulSoup(response, 'html.parser')
 
     # Step 4: Extract job titles and links
@@ -72,6 +84,22 @@ def parse_webpage(response):
 
     # Output results as a dictionary
     return {"Job Title": job_title, "Job Link": job_link}
+
+def get_jobdescrip_from_jobpage(job_url, headers_arg):
+    # Step 2: Request job description from the job's own page
+    job_description = None
+    job_response = fetch_webpage(job_url, headers_arg)
+    job_soup = BeautifulSoup(job_response, 'html.parser')
+
+    # Extract the job description from the job detail page
+    job_desc_div = job_soup.find('div',
+                                 class_='at-section-text-jobDescription-content listingContentBrandingColor job-ad-display-1b1is8w')
+    job_description = job_desc_div.get_text(separator="\n", strip=True) if job_desc_div else None
+
+    # Return the data as a dictionary
+    return {
+        "Job Description": job_description
+    }
 
 
 # UI Elements
@@ -237,7 +265,13 @@ while True:
             }
 
             webpage_html = fetch_webpage(full_url, headers)
-            print(3.4, parse_webpage(webpage_html))
+            job_details = parse_webpage(webpage_html)
+            job_link_path = job_details["Job Link"]
+            full_job_url = site_url + job_link_path
+            encoded_full_job_url = quote(full_job_url, safe=":/?=&")
+            print(3.5, encoded_full_job_url)
+            print(4, get_jobdescrip_from_jobpage(encoded_full_job_url, headers))
+
 
     elif event == Fsg.WIN_CLOSED:
         break
