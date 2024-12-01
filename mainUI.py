@@ -23,17 +23,24 @@ url_label = Fsg.Text("Enter Job Site URL")
 search_term_label = Fsg.Text("Enter Job Search Term:")
 location_label = Fsg.Text("Enter Location (optional)")
 job_sites_list_label = Fsg.Text("Current Job Sites:")
+search_prefix_label = Fsg.Text("URL Search Prefix")
+search_suffix_label = Fsg.Text("URL Search Suffix")
 #endregion
 
 #region Text Input Boxes
 url_input = Fsg.InputText(tooltip="Job site URL", key='job_site_url_input')
 location_input = Fsg.InputText(tooltip="Location for search", key='location_input_key')
-search_term_input = Fsg.InputText(tooltip="Search term for job sites", key='search_term_input')
+search_term_input = Fsg.InputText(tooltip="Search term for job sites", key='search_term_input_key')
+url_search_pref_input = Fsg.InputText(tooltip="Portion of URL that goes before search term",
+                                      key='url_search_pref_key', size=(30,10))
+url_search_suff_input = Fsg.InputText(tooltip="Portion of URL that goes after search term",
+                                      key='url_search_suff_key', size=(30,10))
 #endregion
 
 #region Buttons
 add_button = Fsg.Button("Add Job Site")
 edit_button = Fsg.Button("Edit Job Site", key="edit_button_key")
+search_button = Fsg.Button("Search", key="search_button_key")
 #endregion
 
 #region List Boxes
@@ -49,8 +56,9 @@ selected_index = 0
 window = Fsg.Window('Job Sites Configuration',
                     layout=[[label],
                             [url_label, url_input],
+                            [search_prefix_label, url_search_pref_input, search_suffix_label, url_search_suff_input],
                             [location_label, location_input],
-                            [search_term_label, search_term_input],
+                            [search_term_label, search_term_input, search_button],
                             [add_button, edit_button],
                             [job_sites_list_label],
                             [job_sites_list_box]],
@@ -69,9 +77,12 @@ while True:
     if event == "Add Job Site":
         url = values['job_site_url_input']  # Use the renamed key here
         location = values['location_input_key']
+        search_pre = values['url_search_pref_key']
+        search_suf = values['url_search_suff_key']
         if url:
             # Create a new job site entry with URL and location (optional)
-            new_job_site = {'url': url, 'location': location}
+            new_job_site = {'url': url, 'location': location, 'searchPrefix': search_pre,
+                            'searchSuffix': search_suf}
             job_sites.append(new_job_site)  # Add to job sites list
             save_job_sites(job_sites)  # Save updated list to JSON file
             job_sites_list_box.update(values=[site['url'] for site in job_sites])  # Update the listbox
@@ -87,16 +98,25 @@ while True:
             # Populate the input fields with the selected job site's URL and location
             window["job_site_url_input"].update(value=selected_job_site['url'])
             window["location_input_key"].update(value=selected_job_site.get('location', ''))
-            print('othjerthing')
+            window["url_search_pref_key"].update(value=selected_job_site.get('searchPrefix', ''))
+            window["url_search_suff_key"].update(value=selected_job_site.get('searchSuffix', ''))
 
     elif event == "edit_button_key":
         # Find the corresponding job site in the list
         updated_url = values['job_site_url_input']
         updated_location = values['location_input_key']
+        updated_search_pre = values['url_search_pref_key']
+        updated_search_suf = values['url_search_suff_key']
+
         job_sites[selected_index] = {'url': updated_url,
-                                     'location': updated_location}  # Update the job site in the list
+                                     'location': updated_location,
+                                     'searchPrefix': updated_search_pre,
+                                     'searchSuffix': updated_search_suf}  # Update the job site in the list
         save_job_sites(job_sites)  # Save the updated list back to the JSON file
         job_sites_list_box.update(values=[site['url'] for site in job_sites])  # Refresh the listbox
+
+    #elif event == "search_button_key":
+
 
     elif event == Fsg.WIN_CLOSED:
         break
