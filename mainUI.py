@@ -58,6 +58,21 @@ def fetch_webpage(url ,headers_arg):
         print("Error fetching the webpage:", e)
         return None
 
+def parse_webpage(response):
+    soup = BeautifulSoup(response, 'html.parser')
+
+    # Step 4: Extract job titles and links
+    # Find the <a> tag for the link
+    a_tag = soup.find('a', class_='res-1foik6i')
+    job_link = a_tag['href'] if a_tag else None
+
+    # Find the <div> for the title
+    job_title_div = soup.find('div', class_='res-nehv70')
+    job_title = job_title_div.get_text(strip=True) if job_title_div else None
+
+    # Output results as a dictionary
+    return {"Job Title": job_title, "Job Link": job_link}
+
 
 # UI Elements
 #region Labels Region
@@ -205,6 +220,7 @@ while True:
             site_url = f"{site['url']}"
             srch_pre = f"{site.get('searchPrefix', '')}"
             srch_suf = f"{site.get('searchSuffix', '')}"
+            print(2.3, site_url)
 
             search_path = srch_pre + search_term + srch_suf
             full_url = site_url + search_path
@@ -221,6 +237,7 @@ while True:
             }
 
             webpage_html = fetch_webpage(full_url, headers)
+            print(3.4, parse_webpage(webpage_html))
 
     elif event == Fsg.WIN_CLOSED:
         break
