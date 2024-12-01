@@ -1,6 +1,10 @@
 import FreeSimpleGUI as Fsg
 import json
 import webbrowser
+from urllib.parse import quote, urljoin
+
+#These are going into a separate file once they are working:
+import requests
 
 FILE_PATH = 'job_sites.json'
 
@@ -30,6 +34,17 @@ def blank_out_input_box_values():
     window["location_input_key"].update(value='')
     window["url_search_pref_key"].update(value='')
     window["url_search_suff_key"].update(value='')
+
+def fetch_webpage(url):
+    #Fetch the webpage
+    # Fetch the webpage
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Raise an HTTPError for bad responses (4xx and 5xx)
+        return response.text
+    except requests.exceptions.RequestException as e:
+        print("Error fetching the webpage:", e)
+        return None
 
 
 # UI Elements
@@ -157,8 +172,18 @@ while True:
         # Construct and open URLs
         for site in job_sites:
             full_url = f"{site['url']}{site.get('searchPrefix', '')}{search_term}{site.get('searchSuffix', '')}"
+            search_path = f"{site.get('searchPrefix', '')}{search_term}{site.get('searchSuffix', '')}"
+            print(3.1, full_url)
+            print(3.2, search_path)
             webbrowser.open(full_url)
 
+            #Encode the path for webScrape
+            # Properly encode the search path
+            encoded_path = quote(search_path, safe="/:?=&")
+            base_url = f"{site['url']}"
+            full_url_forWS = urljoin(base_url, encoded_path)
+            print(3.3, "Encoded URL:", full_url_forWS)
+            fetch_webpage(full_url_forWS)
 
     elif event == Fsg.WIN_CLOSED:
         break
