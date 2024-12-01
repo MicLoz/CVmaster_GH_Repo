@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ae32e59-51ce-4c8e-ab16-1f1e55aeb0b2" name="Changes" comment="Added search term Prefix and Suffix text entry boxes and hooked up to saving in the JSON, as well as displaying in Input boxes when different JobSites are clicked.">
+    <list default="true" id="9ae32e59-51ce-4c8e-ab16-1f1e55aeb0b2" name="Changes" comment="Completed Delete Job Site functionality">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainUI.py" afterDir="false" />
     </list>
@@ -131,7 +131,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733023419097</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Completed Delete Job Site functionality">
+      <option name="closed" value="true" />
+      <created>1733026562977</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1733026562977</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -153,6 +161,7 @@
     <MESSAGE value="Fixed bug with locations not displaying correctly." />
     <MESSAGE value="Got all the list functionality and editing working correctly" />
     <MESSAGE value="Added search term Prefix and Suffix text entry boxes and hooked up to saving in the JSON, as well as displaying in Input boxes when different JobSites are clicked." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added search term Prefix and Suffix text entry boxes and hooked up to saving in the JSON, as well as displaying in Input boxes when different JobSites are clicked." />
+    <MESSAGE value="Completed Delete Job Site functionality" />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed Delete Job Site functionality" />
   </component>
 </project>

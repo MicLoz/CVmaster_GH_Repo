@@ -145,21 +145,19 @@ while True:
 
     elif event == "search_button_key":
         search_term = values["search_term_input_key"].strip()
-        selected_sites = window["job_sites_listbox_ky"].get()
 
         # Validation
         if not search_term:
             Fsg.popup_error("Please enter a search term.")
             continue
-        if not selected_sites:
+        if len(job_sites) == 0:
             Fsg.popup_error("Please ensure the job site list has at least one entry.")
             continue
 
         # Construct and open URLs
         for site in job_sites:
-            if site['url'] in selected_sites:
-                full_url = f"{site['url']}{site.get('searchPrefix', '')}{search_term}{site.get('searchSuffix', '')}"
-                webbrowser.open(full_url)
+            full_url = f"{site['url']}{site.get('searchPrefix', '')}{search_term}{site.get('searchSuffix', '')}"
+            webbrowser.open(full_url)
 
 
     elif event == Fsg.WIN_CLOSED:
