@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ae32e59-51ce-4c8e-ab16-1f1e55aeb0b2" name="Changes" comment="Getting back the Job Title and Description">
+    <list default="true" id="9ae32e59-51ce-4c8e-ab16-1f1e55aeb0b2" name="Changes" comment="Wrangling with a bug on the single Job Page">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainUI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webScrape.py" beforeDir="false" afterPath="$PROJECT_DIR$/webScrape.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webScrape.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +47,9 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python tests.Doctests in adapters.executor": "Debug",
     "Python.mainUI.executor": "Run",
+    "Python.request.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master"
   }
@@ -172,7 +174,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733088635105</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Wrangling with a bug on the single Job Page">
+      <option name="closed" value="true" />
+      <created>1733092113621</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1733092113623</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -199,6 +209,18 @@
     <MESSAGE value="Trying to do WebScraping, currently getting an error" />
     <MESSAGE value="Successfully got a response from web server" />
     <MESSAGE value="Getting back the Job Title and Description" />
-    <option name="LAST_COMMIT_MESSAGE" value="Getting back the Job Title and Description" />
+    <MESSAGE value="Wrangling with a bug on the single Job Page" />
+    <option name="LAST_COMMIT_MESSAGE" value="Wrangling with a bug on the single Job Page" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/mainUI.py</url>
+          <line>104</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

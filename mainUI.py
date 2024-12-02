@@ -4,12 +4,10 @@ import webbrowser
 from urllib.parse import quote, urljoin
 import requests
 from bs4 import BeautifulSoup
-import logging
-
-# Setup logging for Debugging
-logging.basicConfig(level=logging.DEBUG)
+from playwright.sync_api import sync_playwright, Position
 
 FILE_PATH = 'job_sites.json'
+SEARCH_TERMS = 'search_terms.json'
 
 # Function to load job sites from a JSON file
 def load_job_sites():
@@ -19,10 +17,22 @@ def load_job_sites():
     except (FileNotFoundError, json.JSONDecodeError):
         return []  # Return an empty list if the file doesn't exist or is empty
 
+def load_search_terms():
+    try:
+        with open(SEARCH_TERMS, 'r') as file:
+            return json.load(file)  # Return a list of job search terms from the JSON file
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []  # Return an empty list if the file doesn't exist or is empty
+
 # Function to save job sites to a JSON file
 def save_job_sites(job_sites_arg):
     with open(FILE_PATH, 'w') as file:
         json.dump(job_sites_arg, file, indent=4)  # Save the job sites as pretty-printed JSON
+
+# Function to save search terms to a JSON file
+def save_search_terms_to_JSON(search_terms_arg):
+    with open(SEARCH_TERMS, 'w') as file:
+        json.dump(search_terms_arg, file, indent=4)  # Save the job sites as pretty-printed JSON
 
 #Function to set the values in the Input Boxes to that of the Selected Job Site.
 def set_input_box_values(selected_job_site_arg):
@@ -54,17 +64,12 @@ def blank_out_input_box_values():
 
 def fetch_webpage(url ,headers_arg):
     try:
-        logging.debug(f"LOG1: Sending request to {url}")
         response = requests.get(url, headers=headers_arg)
-
         if response.status_code == 200:
-            logging.debug(f"LOG2: Request successful, status code: {response.status_code}")
             return response.text  # Returning the raw text content of the response
         else:
-            logging.error(f"LOG3: Request failed with status code {response.status_code}")
             return None
     except requests.exceptions.RequestException as e:
-        logging.error(f"Error fetching the webpage: {e}")
         return None
 
 def parse_webpage(response):
@@ -85,22 +90,49 @@ def parse_webpage(response):
     # Output results as a dictionary
     return {"Job Title": job_title, "Job Link": job_link}
 
-def get_jobdescrip_from_jobpage(job_url, headers_arg):
-    # Step 2: Request job description from the job's own page
-    job_description = None
-    job_response = fetch_webpage(job_url, headers_arg)
-    job_soup = BeautifulSoup(job_response, 'html.parser')
+def get_jobdescrip_from_jobpage(job_url):
+    with sync_playwright() as p:
+        # Launch the browser
+        browser = p.chromium.launch(headless=False)  # Use headless=False to debug visually
+        context = browser.new_context()
+        page = context.new_page()
 
-    # Extract the job description from the job detail page
-    job_desc_div = job_soup.find('div',
-                                 class_='at-section-text-jobDescription-content listingContentBrandingColor job-ad-display-1b1is8w')
-    job_description = job_desc_div.get_text(separator="\n", strip=True) if job_desc_div else None
+        # Navigate to the job page
+        page.goto(job_url, timeout=0)
+        page.wait_for_load_state('networkidle', timeout=0)  # Ensure all network requests are complete
+
+        # Extract the job description
+        try:
+            # Replace the CSS selector below with the actual selector for the job description
+            job_description_element = page.query_selector(".job-description-selector")
+            job_description = job_description_element.inner_text() if job_description_element else "Description not found"
+        except Exception as e:
+            job_description = f"An error occurred: {str(e)}"
+
+        # Close the browser
+        browser.close()
 
     # Return the data as a dictionary
     return {
         "Job Description": job_description
     }
 
+#def get_default_search_term():
+#    if len(search_terms) > 0:
+#        #for term in search_terms:
+#    print("TODO: Make this iter. through terms to find the one with Default:True")
+#    else:
+#        return ""
+
+def save_search_term(search_term_arg):
+    target_string = search_term_arg.upper()  # Convert the target string to uppercase
+    if any(target_string in (value.upper() if isinstance(value, str) else value) for d in search_terms for value in
+           d.values()):
+        Fsg.popup_error("This search term already exists.")
+    else:
+        new_search_term_entry = {'searchTerm': search_term_arg, 'default': False}
+        search_terms.append(new_search_term_entry)
+        save_search_terms_to_JSON(search_terms)
 
 # UI Elements
 #region Labels Region
@@ -113,6 +145,7 @@ search_prefix_label = Fsg.Text("URL Search Prefix")
 search_suffix_label = Fsg.Text("URL Search Suffix")
 replace_space_label = Fsg.Text("Replace spaces in search term with:")
 search_caps_rule_label = Fsg.Text("Search Caps Rule")
+search_terms_list_label = Fsg.Text("Current Search Terms:")
 #endregion
 
 #region Text Input Boxes
@@ -135,12 +168,17 @@ caps_rule_dropdwn = Fsg.InputCombo(values=['All Lowercase'], key="cap_dropD")
 add_button = Fsg.Button("Add Job Site")
 edit_button = Fsg.Button("Edit Job Site", key="edit_button_key")
 search_button = Fsg.Button("Search", key="search_button_key")
+save_search_button = Fsg.Button("Save Search Term", key="save_srch_term")
+search_default_button = Fsg.Button("Set as Default", key="srch-def")
 delete_button = Fsg.Button("Delete Job Site", key='delete_button_key')
 #endregion
 
 #region List Boxes
 job_sites_list_box = Fsg.Listbox(values=[site['url'] for site in load_job_sites()],
                                  key='job_sites_listbox_ky', size=(45, 10),
+                                 enable_events=True)
+search_terms_list_box = Fsg.Listbox(values=[term['searchTerm'] for term in load_search_terms()],
+                                 key='search_terms_listbox_ky', size=(45, 10),
                                  enable_events=True)
 #endregion
 
@@ -153,22 +191,28 @@ window = Fsg.Window('Job Sites Configuration',
                             [url_label, url_input],
                             [search_prefix_label, url_search_pref_input, search_suffix_label, url_search_suff_input],
                             [location_label, location_input],
-                            [search_term_label, search_term_input, search_button],
+                            [search_term_label, search_term_input, search_button, save_search_button, search_default_button],
                             [replace_space_label, replace_search_char, search_caps_rule_label, caps_rule_dropdwn],
                             [add_button, edit_button, delete_button],
-                            [job_sites_list_label],
-                            [job_sites_list_box]],
+                            [job_sites_list_label, search_terms_list_label],
+                            [job_sites_list_box, search_terms_list_box]],
                     font=('Helvetica', 14))
 
-# Load the job sites initially
+# Load the job sites + search terms initially
 job_sites = load_job_sites()
+search_terms = load_search_terms()
+
 
 # Event loop
 while True:
     event, values = window.read()
+
+    #current_search_term = get_default_search_term()
     print(1, event)
+    print(1.1, str(window["search_terms_listbox_ky"].Position))
     print(2, values)  # Will show the whole values dictionary
     print(3, values["job_site_url_input"])  # Print the URL input field value
+
 
     if event == "Add Job Site":
         url, location, search_pre, search_suf, space_rep, cap_rule = get_input_box_values()
@@ -270,8 +314,12 @@ while True:
             full_job_url = site_url + job_link_path
             encoded_full_job_url = quote(full_job_url, safe=":/?=&")
             print(3.5, encoded_full_job_url)
-            print(4, get_jobdescrip_from_jobpage(encoded_full_job_url, headers))
+            print(4, get_jobdescrip_from_jobpage(encoded_full_job_url))
 
+    elif "save_srch_term":
+        search_val = values["search_term_input_key"].strip()
+        if search_val != "":
+            save_search_term(search_val)
 
     elif event == Fsg.WIN_CLOSED:
         break
