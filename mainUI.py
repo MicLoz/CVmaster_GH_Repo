@@ -44,6 +44,26 @@ def set_input_box_values(selected_job_site_arg):
     window["rep_srch_char"].update(value=selected_job_site_arg.get('replaceSpacesWith', ''))
     window["cap_dropD"].update(value=selected_job_site_arg.get('capitalisationRule', ''))
 
+def set_input_box_search_term_value(search_term_dict_arg):
+    window["search_term_input_key"].update(value=search_term_dict_arg['searchTerm'])
+
+def set_search_term_default_if_only_one():
+    if len(search_terms) == 1:
+        search_terms[0]['default'] = "True"
+
+def set_search_term_as_default(search_term_arg):
+    remove_existing_search_term_as_default()
+    for term in search_terms:
+        if term['searchTerm'] == search_term_arg:
+            term['default'] = "True"
+
+def remove_existing_search_term_as_default():
+    for term in search_terms:
+        #Remove existing Search term
+        if term['default'] == "True":
+            term['default'] = "False"
+
+
 def get_input_box_values():
     get_input_url = values['job_site_url_input']  # Use the renamed key here
     get_input_location = values['location_input_key']
@@ -117,13 +137,6 @@ def get_jobdescrip_from_jobpage(job_url):
         "Job Description": job_description
     }
 
-#def get_default_search_term():
-#    if len(search_terms) > 0:
-#        #for term in search_terms:
-#    print("TODO: Make this iter. through terms to find the one with Default:True")
-#    else:
-#        return ""
-
 def save_search_term(search_term_arg):
     target_string = search_term_arg.upper()  # Convert the target string to uppercase
     if any(target_string in (value.upper() if isinstance(value, str) else value) for d in search_terms for value in
@@ -132,6 +145,7 @@ def save_search_term(search_term_arg):
     else:
         new_search_term_entry = {'searchTerm': search_term_arg, 'default': False}
         search_terms.append(new_search_term_entry)
+        set_search_term_default_if_only_one()
         save_search_terms_to_JSON(search_terms)
 
 # UI Elements
@@ -145,7 +159,8 @@ search_prefix_label = Fsg.Text("URL Search Prefix")
 search_suffix_label = Fsg.Text("URL Search Suffix")
 replace_space_label = Fsg.Text("Replace spaces in search term with:")
 search_caps_rule_label = Fsg.Text("Search Caps Rule")
-search_terms_list_label = Fsg.Text("Current Search Terms:")
+search_term_space = "                                                                       " #lol
+search_terms_list_label = Fsg.Text(f"{search_term_space}Current Search Terms:", key="search_terms_label")
 #endregion
 
 #region Text Input Boxes
@@ -170,6 +185,7 @@ edit_button = Fsg.Button("Edit Job Site", key="edit_button_key")
 search_button = Fsg.Button("Search", key="search_button_key")
 save_search_button = Fsg.Button("Save Search Term", key="save_srch_term")
 search_default_button = Fsg.Button("Set as Default", key="srch-def")
+search_delete_button = Fsg.Button("Delete Search Term", key="srch-del")
 delete_button = Fsg.Button("Delete Job Site", key='delete_button_key')
 #endregion
 
@@ -184,6 +200,8 @@ search_terms_list_box = Fsg.Listbox(values=[term['searchTerm'] for term in load_
 
 #Variables
 selected_index = 0
+selected_index_search_term = 0
+selected_search_term = {}
 
 # Create the window layout
 window = Fsg.Window('Job Sites Configuration',
@@ -195,7 +213,7 @@ window = Fsg.Window('Job Sites Configuration',
                             [replace_space_label, replace_search_char, search_caps_rule_label, caps_rule_dropdwn],
                             [add_button, edit_button, delete_button],
                             [job_sites_list_label, search_terms_list_label],
-                            [job_sites_list_box, search_terms_list_box]],
+                            [job_sites_list_box, search_terms_list_box, search_delete_button]],
                     font=('Helvetica', 14))
 
 # Load the job sites + search terms initially
@@ -209,10 +227,9 @@ while True:
 
     #current_search_term = get_default_search_term()
     print(1, event)
-    print(1.1, str(window["search_terms_listbox_ky"].Position))
     print(2, values)  # Will show the whole values dictionary
     print(3, values["job_site_url_input"])  # Print the URL input field value
-
+    print(f"Search Terms: {search_terms}")
 
     if event == "Add Job Site":
         url, location, search_pre, search_suf, space_rep, cap_rule = get_input_box_values()
@@ -316,10 +333,30 @@ while True:
             print(3.5, encoded_full_job_url)
             print(4, get_jobdescrip_from_jobpage(encoded_full_job_url))
 
-    elif "save_srch_term":
+    elif event == "save_srch_term":
         search_val = values["search_term_input_key"].strip()
         if search_val != "":
             save_search_term(search_val)
+            search_terms_list_box.update(values=[term['searchTerm'] for term in search_terms])  # Update the listbox
+
+    elif event == "search_terms_listbox_ky":
+        selected_tuple_search = window["search_terms_listbox_ky"].Widget.curselection()
+        print(9, selected_tuple_search)
+        if len(selected_tuple_search) > 0:
+            selected_index_search_term = selected_tuple_search[0]
+            if selected_index_search_term is not None:
+                # Convert the selected index to the actual job site in the list
+                selected_search_term = search_terms[selected_index_search_term]
+                print(10, selected_search_term)
+                set_input_box_search_term_value(selected_search_term)
+
+    elif event == "srch-def":
+        # A Search term has been selected
+        if len(selected_search_term) > 0:
+            set_search_term_as_default(selected_search_term['searchTerm'])
+            save_search_terms_to_JSON(search_terms)
+        else:
+            Fsg.popup("You must select a search term from the list, in order to set it as the default.")
 
     elif event == Fsg.WIN_CLOSED:
         break
