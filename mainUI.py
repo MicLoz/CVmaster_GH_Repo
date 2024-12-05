@@ -50,18 +50,28 @@ def set_input_box_search_term_value(search_term_dict_arg):
 def set_search_term_default_if_only_one():
     if len(search_terms) == 1:
         search_terms[0]['default'] = "True"
+        default_search_term = search_terms[0]['searchTerm']
 
 def set_search_term_as_default(search_term_arg):
     remove_existing_search_term_as_default()
     for term in search_terms:
         if term['searchTerm'] == search_term_arg:
             term['default'] = "True"
+            default_search_term = term['searchTerm']
 
 def remove_existing_search_term_as_default():
     for term in search_terms:
         #Remove existing Search term
         if term['default'] == "True":
             term['default'] = "False"
+
+def get_existing_default_search_term_if_exists():
+    if len(search_terms) > 0:
+        for term in search_terms:
+            if term['default'] == "True":
+                return term['searchTerm']
+    else:
+        return None
 
 
 def get_input_box_values():
@@ -143,10 +153,14 @@ def save_search_term(search_term_arg):
            d.values()):
         Fsg.popup_error("This search term already exists.")
     else:
-        new_search_term_entry = {'searchTerm': search_term_arg, 'default': False}
+        new_search_term_entry = {'searchTerm': search_term_arg, 'default': "False"}
         search_terms.append(new_search_term_entry)
         set_search_term_default_if_only_one()
         save_search_terms_to_JSON(search_terms)
+
+#Variables that initialise using function calls or similar
+search_terms = load_search_terms() # This has to be declared before it is used by the next line.
+default_search_term = get_existing_default_search_term_if_exists()
 
 # UI Elements
 #region Labels Region
@@ -166,7 +180,8 @@ search_terms_list_label = Fsg.Text(f"{search_term_space}Current Search Terms:", 
 #region Text Input Boxes
 url_input = Fsg.InputText(tooltip="Job site URL", key='job_site_url_input')
 location_input = Fsg.InputText(tooltip="Location for search", key='location_input_key')
-search_term_input = Fsg.InputText(tooltip="Search term for job sites", key='search_term_input_key')
+search_term_input = Fsg.InputText(tooltip="Search term for job sites", key='search_term_input_key',
+                                  default_text=f"{default_search_term}")
 url_search_pref_input = Fsg.InputText(tooltip="Portion of URL that goes before search term",
                                       key='url_search_pref_key', size=(30,10))
 url_search_suff_input = Fsg.InputText(tooltip="Portion of URL that goes after search term",
@@ -198,11 +213,6 @@ search_terms_list_box = Fsg.Listbox(values=[term['searchTerm'] for term in load_
                                  enable_events=True)
 #endregion
 
-#Variables
-selected_index = 0
-selected_index_search_term = 0
-selected_search_term = {}
-
 # Create the window layout
 window = Fsg.Window('Job Sites Configuration',
                     layout=[[label],
@@ -216,9 +226,13 @@ window = Fsg.Window('Job Sites Configuration',
                             [job_sites_list_box, search_terms_list_box, search_delete_button]],
                     font=('Helvetica', 14))
 
-# Load the job sites + search terms initially
+# Load the job sites initially
 job_sites = load_job_sites()
-search_terms = load_search_terms()
+
+#Variables with "empty" initialisations, that aren't required to be BEFORE the UI Element creation.
+selected_index = 0
+selected_index_search_term = 0
+selected_search_term = {}
 
 
 # Event loop
