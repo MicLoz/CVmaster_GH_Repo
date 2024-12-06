@@ -73,6 +73,11 @@ def get_existing_default_search_term_if_exists():
     else:
         return None
 
+def delete_search_term(search_term_arg):
+    for index, term in enumerate(search_terms):
+        if term['searchTerm'] == search_term_arg:
+            search_terms.pop(index)
+            return index
 
 def get_input_box_values():
     get_input_url = values['job_site_url_input']  # Use the renamed key here
@@ -219,11 +224,11 @@ window = Fsg.Window('Job Sites Configuration',
                             [url_label, url_input],
                             [search_prefix_label, url_search_pref_input, search_suffix_label, url_search_suff_input],
                             [location_label, location_input],
-                            [search_term_label, search_term_input, search_button, save_search_button, search_default_button],
+                            [search_term_label, search_term_input, search_button, save_search_button],
                             [replace_space_label, replace_search_char, search_caps_rule_label, caps_rule_dropdwn],
                             [add_button, edit_button, delete_button],
                             [job_sites_list_label, search_terms_list_label],
-                            [job_sites_list_box, search_terms_list_box, search_delete_button]],
+                            [job_sites_list_box, search_terms_list_box, search_default_button, search_delete_button]],
                     font=('Helvetica', 14))
 
 # Load the job sites initially
@@ -371,6 +376,22 @@ while True:
             save_search_terms_to_JSON(search_terms)
         else:
             Fsg.popup("You must select a search term from the list, in order to set it as the default.")
+
+    elif event == 'srch-del':
+        if len(selected_search_term) > 0:
+            deleted_index = delete_search_term(selected_search_term['searchTerm'])
+            save_search_terms_to_JSON(search_terms)
+            search_terms_list_box.update(values=[term['searchTerm'] for term in search_terms])  # Update the listbox
+
+            if deleted_index is not None:
+                if deleted_index > 0:
+                    deleted_index = deleted_index - 1
+                    # Update the selection in the list box
+                    search_terms_list_box.update(set_to_index=deleted_index)
+                    selected_index_search_term = job_sites[deleted_index]
+                    set_input_box_search_term_value(search_terms[deleted_index])
+        else:
+            Fsg.popup("You must select a search term from the list, in order to delete it.")
 
     elif event == Fsg.WIN_CLOSED:
         break
