@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ae32e59-51ce-4c8e-ab16-1f1e55aeb0b2" name="Changes" comment="Got the default search term loading working from the JSON file.">
+    <list default="true" id="9ae32e59-51ce-4c8e-ab16-1f1e55aeb0b2" name="Changes" comment="Refactored into separate modules">
+      <change afterPath="$PROJECT_DIR$/file_system/file_manager.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/initialise_ui.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/input_boxes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/search_term_interact.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/playwright_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/scraper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainUI.py" afterDir="false" />
     </list>
@@ -21,7 +27,13 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -47,12 +59,19 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Python tests.Doctests in adapters.executor": "Debug",
+    "Python.initialise_ui.executor": "Debug",
     "Python.mainUI.executor": "Run",
     "Python.request.executor": "Debug",
+    "Python.search_term_interact.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master"
+    "git-widget-placeholder": "6931d74f"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Mikel\PycharmProjects\CVmaster\data" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -236,9 +255,19 @@
     <MESSAGE value="Adding Listbox for Search Terms" />
     <MESSAGE value="Think this should have default search term functionality completed - untested." />
     <MESSAGE value="Got the default search term loading working from the JSON file." />
-    <option name="LAST_COMMIT_MESSAGE" value="Got the default search term loading working from the JSON file." />
+    <MESSAGE value="Refactored into separate modules" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactored into separate modules" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="search_terms_list_label" />
