@@ -1,3 +1,4 @@
+print("Just so I can commit")
 def set_search_term_default_if_only_one(search_terms):
     if len(search_terms) == 1:
         search_terms[0]['default'] = "True"

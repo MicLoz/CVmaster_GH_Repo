@@ -5,14 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ae32e59-51ce-4c8e-ab16-1f1e55aeb0b2" name="Changes" comment="Refactored into separate modules">
-      <change afterPath="$PROJECT_DIR$/file_system/file_manager.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ui/initialise_ui.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ui/input_boxes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ui/search_term_interact.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/playwright_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/scraper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_system/file_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/file_system/file_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainUI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/initialise_ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/initialise_ui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/input_boxes.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/input_boxes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/search_term_interact.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/search_term_interact.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/playwright_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/playwright_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/scraper.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +24,14 @@
       <list>
         <option value="Python Script" />
       </list>
+    </option>
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="fix-detached-head" />
+    <option name="OPTIONS">
+      <set>
+        <option value="COMMIT_MESSAGE" />
+      </set>
     </option>
   </component>
   <component name="Git.Settings">
@@ -64,7 +72,7 @@
     "Python.request.executor": "Debug",
     "Python.search_term_interact.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "6931d74f"
+    "git-widget-placeholder": "master"
   }
 }]]></component>
   <component name="RecentsManager">

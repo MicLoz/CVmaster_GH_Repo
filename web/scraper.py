@@ -2,6 +2,7 @@ import webbrowser
 from urllib.parse import quote, urljoin
 import requests
 from bs4 import BeautifulSoup
+print("Just so I can commit")
 
 def fetch_webpage(url ,headers_arg):
     try:
