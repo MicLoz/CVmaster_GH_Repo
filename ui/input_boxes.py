@@ -1,4 +1,3 @@
-print("Just so I can commit")
 def get_input_box_values(values):
     get_input_url = values['job_site_url_input']
     get_input_location = values['location_input_key']

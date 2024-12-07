@@ -145,7 +145,6 @@ while True:
     elif event == "search_terms_listbox_ky":
         selected_tuple_search = window["search_terms_listbox_ky"].Widget.curselection()
         print(9, selected_tuple_search)
-        print("Just so I can commit")
         if len(selected_tuple_search) > 0:
             selected_index_search_term = selected_tuple_search[0]
             if selected_index_search_term is not None:

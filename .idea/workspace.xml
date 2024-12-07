@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ae32e59-51ce-4c8e-ab16-1f1e55aeb0b2" name="Changes" comment="Refactored into separate modules">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="9ae32e59-51ce-4c8e-ab16-1f1e55aeb0b2" name="Changes" comment="Repushing master after sorting out the merge conflict after the refactor.">
       <change beforePath="$PROJECT_DIR$/file_system/file_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/file_system/file_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainUI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/initialise_ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/initialise_ui.py" afterDir="false" />
@@ -232,7 +231,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733438557197</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Repushing master after sorting out the merge conflict after the refactor.">
+      <option name="closed" value="true" />
+      <created>1733605704595</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1733605704595</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -264,7 +271,8 @@
     <MESSAGE value="Think this should have default search term functionality completed - untested." />
     <MESSAGE value="Got the default search term loading working from the JSON file." />
     <MESSAGE value="Refactored into separate modules" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactored into separate modules" />
+    <MESSAGE value="Repushing master after sorting out the merge conflict after the refactor." />
+    <option name="LAST_COMMIT_MESSAGE" value="Repushing master after sorting out the merge conflict after the refactor." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

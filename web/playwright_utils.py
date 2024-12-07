@@ -1,5 +1,4 @@
 from playwright.sync_api import sync_playwright, Position
-print("Just so I can commit")
 def get_jobdescrip_from_jobpage(job_url):
     with sync_playwright() as p:
         # Launch the browser
