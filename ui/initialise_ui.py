@@ -1,6 +1,6 @@
 import FreeSimpleGUI as Fsg
 
-def create_ui_elements(default_search_term, job_sites, search_terms):
+def create_ui_elements(default_search_term, job_sites, search_terms, last_search_path):
     # Create the UI elements dynamically
     #region Labels
     label = Fsg.Text("Job Site Configuration")
@@ -14,6 +14,7 @@ def create_ui_elements(default_search_term, job_sites, search_terms):
     search_caps_rule_label = Fsg.Text("Search Caps Rule")
     search_term_space = " " * 70
     search_terms_list_label = Fsg.Text(f"{search_term_space}Current Search Terms:", key="search_terms_label")
+    cv_browser_label = Fsg.Text("Choose existing CV to use as basis for Rewrite:")
     #endregion
 
     #region Text Input Boxes
@@ -33,6 +34,7 @@ def create_ui_elements(default_search_term, job_sites, search_terms):
 
     #region Drop Downs
     caps_rule_dropdwn = Fsg.InputCombo(values=['All Lowercase'], key="cap_dropD")
+    CV_dropdown = Fsg.Combo(values=[last_search_path] ,key="CV_dropD")
     #endregion
 
     #region Buttons
@@ -43,7 +45,10 @@ def create_ui_elements(default_search_term, job_sites, search_terms):
     search_default_button = Fsg.Button("Set as Default", key="srch-def")
     search_delete_button = Fsg.Button("Delete Search Term", key="srch-del")
     delete_button = Fsg.Button("Delete Job Site", key='delete_button_key')
+    CV_browse_button = Fsg.FileBrowse("Browse", key='clicked_cv_browse_button', file_types=(("Word Documents", "*.docx"),)
+                                      ,enable_events=True,)
     #endregion
+
 
     #region List Boxes
     job_sites_list_box = Fsg.Listbox(
@@ -65,10 +70,16 @@ def create_ui_elements(default_search_term, job_sites, search_terms):
         [replace_space_label, replace_search_char, search_caps_rule_label, caps_rule_dropdwn],
         [add_button, edit_button, delete_button],
         [job_sites_list_label, search_terms_list_label],
-        [job_sites_list_box, search_terms_list_box, search_default_button, search_delete_button]
+        [job_sites_list_box, search_terms_list_box, search_default_button, search_delete_button],
+        [cv_browser_label],
+        [CV_dropdown, CV_browse_button]
     ]
 
-def create_ui(default_search_term, job_sites, search_terms):
-    layout = create_ui_elements(default_search_term, job_sites, search_terms)
+def create_ui(default_search_term, job_sites, search_terms, last_search_path, theme_name):
+    set_theme(theme_name)
+    layout = create_ui_elements(default_search_term, job_sites, search_terms, last_search_path)
     window = Fsg.Window('Job Sites Configuration', layout, font=('Helvetica', 14))
     return window
+
+def set_theme(theme_name):
+    Fsg.theme(theme_name)

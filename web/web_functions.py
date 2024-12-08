@@ -14,5 +14,11 @@ def get_cookie_popup_selector(site, web_details):
             return f"{details.get('cookiePopUpSelector', '')}"
         else:
             return ""
-    #cookie_popup_selector = f"{}"
+
+def get_job_description_selector(site, web_details):
+    for details in web_details:
+        if details['url'] == site:
+            return f"{details.get('jobDescriptionSelector', '')}"
+        else:
+            return ""
 

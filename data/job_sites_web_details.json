@@ -1,6 +1,7 @@
 [
     {
         "url": "https://www.totaljobs.com",
-        "cookiePopUpSelector": "ccmgt_explicit_accept",
+        "cookiePopUpSelector": "#ccmgt_explicit_accept",
+        "jobDescriptionSelector": ".at-section-text-jobDescription-content"
     }
 ]

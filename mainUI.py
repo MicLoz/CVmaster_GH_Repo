@@ -9,6 +9,8 @@ from web.web_functions import *
 #Variables that initialise using function calls or similar
 search_terms = load_json(SEARCH_TERMS) # This has to be declared before it is used by the next line.
 default_search_term = get_existing_default_search_term_if_exists(search_terms)
+last_cv_paths = load_json(CV_PATHS)
+last_cv_path = last_cv_paths[0]['cvPath']
 
 # Load the job sites initially
 job_sites = load_json(FILE_PATH)
@@ -16,12 +18,15 @@ job_sites = load_json(FILE_PATH)
 # Load Job site web details
 job_site_web_details = load_json(WEB_DETAILS)
 
+#Set the theme
+theme_name = "DarkBlue4"
+
 #Variables with "empty" initialisations, that aren't required to be BEFORE the UI Element creation.
 selected_jobsite_index = 0
 selected_index_search_term = 0
 selected_search_term = {}
 
-window = create_ui(default_search_term, job_sites, search_terms)
+window = create_ui(default_search_term, job_sites, search_terms, last_cv_path, theme_name)
 
 # Event loop
 while True:
@@ -38,10 +43,12 @@ while True:
         url, location, search_pre, search_suf, space_rep, cap_rule = get_input_box_values(values)
         if url:
             cookie_sel = get_cookie_popup_selector(url, job_site_web_details)
+            job_descrip_sel = get_job_description_selector(url, job_site_web_details)
             # Create a new job site entry with URL and location (optional)
             new_job_site = {'url': url, 'location': location, 'searchPrefix': search_pre,
                             'searchSuffix': search_suf, 'replaceSpacesWith': space_rep,
-                            'capitalisationRule': cap_rule, 'cookiePopUpSelector': cookie_sel}
+                            'capitalisationRule': cap_rule, 'cookiePopUpSelector': cookie_sel,
+                            'jobDescriptionSelector': job_descrip_sel}
             job_sites.append(new_job_site)  # Add to job sites list
             save_json(job_sites, FILE_PATH)  # Save updated job sites list to JSON file
             window["job_sites_listbox_ky"].update(values=[site['url'] for site in job_sites])  # Update the listbox
@@ -62,6 +69,7 @@ while True:
          updated_search_suf, updated_space_rep, updated_cap_rule) = get_input_box_values(values)
 
         cookie_sel_edit = get_cookie_popup_selector(updated_url, job_site_web_details)
+        job_descrip_sel_edit = get_job_description_selector(updated_url, job_site_web_details)
 
         # Update the job site in the list
         job_sites[selected_jobsite_index] = {'url': updated_url,
@@ -70,7 +78,8 @@ while True:
                                      'searchSuffix': updated_search_suf,
                                      'replaceSpacesWith': updated_space_rep,
                                      'capitalisationRule': updated_cap_rule,
-                                     'cookiePopUpSelector': cookie_sel_edit}
+                                     'cookiePopUpSelector': cookie_sel_edit,
+                                     'jobDescriptionSelector': job_descrip_sel_edit}
 
         save_json(job_sites, FILE_PATH)  # Save updated job sites list to JSON file
         window["job_sites_listbox_ky"].update(values=[site['url'] for site in job_sites])  # Refresh the listbox
@@ -122,8 +131,10 @@ while True:
             print(3.5, encoded_full_job_url)
 
             cookie_sel_search = get_cookie_popup_selector(site['url'], job_site_web_details)
-            job_description = get_jobdescrip_from_jobpage(encoded_full_job_url, cookie_sel_search)
-            print(4, get_jobdescrip_from_jobpage(encoded_full_job_url))
+            job_descrip_sel_search = get_job_description_selector(site['url'], job_site_web_details)
+
+            job_description = get_jobdescrip_from_jobpage(encoded_full_job_url, cookie_sel_search,
+                                                          job_descrip_sel_search)
 
     elif event == "save_srch_term":
         search_val = values["search_term_input_key"].strip()

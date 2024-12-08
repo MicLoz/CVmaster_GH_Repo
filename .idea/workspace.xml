@@ -4,13 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ae32e59-51ce-4c8e-ab16-1f1e55aeb0b2" name="Changes" comment="Latest working.">
-      <change afterPath="$PROJECT_DIR$/data/job_sites_web_details.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/web_functions.py" afterDir="false" />
+    <list default="true" id="9ae32e59-51ce-4c8e-ab16-1f1e55aeb0b2" name="Changes" comment="Handling cookie popups by site. Not working.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/job_sites_web_details.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/job_sites_web_details.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/file_system/file_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/file_system/file_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainUI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/initialise_ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/initialise_ui.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/playwright_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/playwright_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/web_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/web_functions.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,8 +66,9 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Python tests.Doctests in adapters.executor": "Debug",
-    "Python.initialise_ui.executor": "Debug",
-    "Python.mainUI.executor": "Debug",
+    "Python.file-Chooser-example.executor": "Run",
+    "Python.initialise_ui.executor": "Run",
+    "Python.mainUI.executor": "Run",
     "Python.playwright_utils.executor": "Run",
     "Python.request.executor": "Debug",
     "Python.search_term_interact.executor": "Run",
@@ -252,7 +254,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733605924953</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Handling cookie popups by site. Not working.">
+      <option name="closed" value="true" />
+      <created>1733662184294</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1733662184294</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -286,17 +296,11 @@
     <MESSAGE value="Refactored into separate modules" />
     <MESSAGE value="Repushing master after sorting out the merge conflict after the refactor." />
     <MESSAGE value="Latest working." />
-    <option name="LAST_COMMIT_MESSAGE" value="Latest working." />
+    <MESSAGE value="Handling cookie popups by site. Not working." />
+    <option name="LAST_COMMIT_MESSAGE" value="Handling cookie popups by site. Not working." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/mainUI.py</url>
-          <line>41</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -305,12 +309,5 @@
         </breakpoint>
       </default-breakpoints>
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="PythonConfigurationType">
-        <watch expression="search_terms_list_label" />
-        <watch expression="element" />
-        <watch expression="search_terms" />
-      </configuration>
-    </watches-manager>
   </component>
 </project>
