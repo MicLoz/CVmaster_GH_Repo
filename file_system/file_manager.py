@@ -2,6 +2,7 @@ import json
 
 FILE_PATH = 'data/job_sites.json'
 SEARCH_TERMS = 'data/search_terms.json'
+WEB_DETAILS = 'data/job_sites_web_details.json'
 
 def load_json(file_path):
     try:

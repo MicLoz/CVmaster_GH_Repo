@@ -4,14 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ae32e59-51ce-4c8e-ab16-1f1e55aeb0b2" name="Changes" comment="Repushing master after sorting out the merge conflict after the refactor.">
+    <list default="true" id="9ae32e59-51ce-4c8e-ab16-1f1e55aeb0b2" name="Changes" comment="Latest working.">
+      <change afterPath="$PROJECT_DIR$/data/job_sites_web_details.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/web_functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/file_system/file_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/file_system/file_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainUI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/initialise_ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/initialise_ui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/input_boxes.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/input_boxes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/search_term_interact.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/search_term_interact.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/playwright_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/playwright_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/scraper.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,14 +66,20 @@
   "keyToString": {
     "Python tests.Doctests in adapters.executor": "Debug",
     "Python.initialise_ui.executor": "Debug",
-    "Python.mainUI.executor": "Run",
+    "Python.mainUI.executor": "Debug",
+    "Python.playwright_utils.executor": "Run",
     "Python.request.executor": "Debug",
     "Python.search_term_interact.executor": "Run",
+    "Python.web_functions.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master"
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/Mikel/PycharmProjects/CVmaster/data"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Mikel\PycharmProjects\CVmaster\data" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Mikel\PycharmProjects\CVmaster\data" />
     </key>
@@ -239,7 +244,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733605704595</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Latest working.">
+      <option name="closed" value="true" />
+      <created>1733605924953</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1733605924953</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -272,10 +285,18 @@
     <MESSAGE value="Got the default search term loading working from the JSON file." />
     <MESSAGE value="Refactored into separate modules" />
     <MESSAGE value="Repushing master after sorting out the merge conflict after the refactor." />
-    <option name="LAST_COMMIT_MESSAGE" value="Repushing master after sorting out the merge conflict after the refactor." />
+    <MESSAGE value="Latest working." />
+    <option name="LAST_COMMIT_MESSAGE" value="Latest working." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/mainUI.py</url>
+          <line>41</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">

@@ -1,5 +1,5 @@
 from playwright.sync_api import sync_playwright, Position
-def get_jobdescrip_from_jobpage(job_url):
+def get_jobdescrip_from_jobpage(job_url, cookie_popup_selector):
     with sync_playwright() as p:
         # Launch the browser
         browser = p.chromium.launch(headless=False)  # Use headless=False to debug visually
@@ -9,6 +9,9 @@ def get_jobdescrip_from_jobpage(job_url):
         # Navigate to the job page
         page.goto(job_url, timeout=0)
         page.wait_for_load_state('networkidle', timeout=0)  # Ensure all network requests are complete
+
+        # Handle cookie popup
+        handle_popup(cookie_popup_selector, page)
 
         # Extract the job description
         try:
@@ -25,3 +28,12 @@ def get_jobdescrip_from_jobpage(job_url):
     return {
         "Job Description": job_description
     }
+
+def handle_popup(cookie_popup_selector, page):
+    try:
+        cookie_popup_selector = "#ccmgt_explicit_accept"
+        if page.is_visible(cookie_popup_selector, timeout=5000):  # Wait for the popup if it exists
+            page.click(cookie_popup_selector)
+            print("Cookie popup dismissed.")
+    except Exception as e:
+        print(f"Cookie popup handling failed: {str(e)}")
