@@ -14,7 +14,7 @@ def create_ui_elements(default_search_term, job_sites, search_terms, last_search
     search_caps_rule_label = Fsg.Text("Search Caps Rule")
     search_term_space = " " * 70
     search_terms_list_label = Fsg.Text(f"{search_term_space}Current Search Terms:", key="search_terms_label")
-    cv_browser_label = Fsg.Text("Choose existing CV to use as basis for Rewrite:")
+    CV_browser_label = Fsg.Text("Choose existing CV to use as basis for Rewrite:")
     #endregion
 
     #region Text Input Boxes
@@ -45,7 +45,9 @@ def create_ui_elements(default_search_term, job_sites, search_terms, last_search
     search_default_button = Fsg.Button("Set as Default", key="srch-def")
     search_delete_button = Fsg.Button("Delete Search Term", key="srch-del")
     delete_button = Fsg.Button("Delete Job Site", key='delete_button_key')
-    CV_browse_button = Fsg.FileBrowse("Browse", key='clicked_cv_browse_button', file_types=(("Word Documents", "*.docx"),)
+    preview_CV_button = Fsg.Button("Preview CV", key="preview_cv_button_clicked")
+    CV_browse_button = Fsg.FileBrowse("Browse", key='clicked_cv_browse_button'
+                                      ,file_types=(("Word Documents", "*.docx"),)
                                       ,enable_events=True,)
     #endregion
 
@@ -61,6 +63,10 @@ def create_ui_elements(default_search_term, job_sites, search_terms, last_search
     )
     #endregion
 
+    #region MultiLines
+    CV_preview = Fsg.Multiline(size=(80, 20), key="-CV_PREVIEW-", disabled=True, autoscroll=False)
+    #endregion
+
     return [
         [label],
         [url_label, url_input],
@@ -71,8 +77,9 @@ def create_ui_elements(default_search_term, job_sites, search_terms, last_search
         [add_button, edit_button, delete_button],
         [job_sites_list_label, search_terms_list_label],
         [job_sites_list_box, search_terms_list_box, search_default_button, search_delete_button],
-        [cv_browser_label],
-        [CV_dropdown, CV_browse_button]
+        [CV_browser_label],
+        [CV_dropdown, CV_browse_button],
+        [preview_CV_button]
     ]
 
 def create_ui(default_search_term, job_sites, search_terms, last_search_path, theme_name):

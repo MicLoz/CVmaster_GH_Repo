@@ -2,9 +2,11 @@ from file_system.file_manager import *
 from ui.search_term_interact import *
 from ui.initialise_ui import *
 from ui.input_boxes import *
+from ui.cv_preview_display import *
 from web.scraper import *
 from web.playwright_utils import *
 from web.web_functions import *
+from cv.cv_text_manager import *
 
 #Variables that initialise using function calls or similar
 search_terms = load_json(SEARCH_TERMS) # This has to be declared before it is used by the next line.
@@ -180,6 +182,22 @@ while True:
                     set_input_box_search_term_value(search_terms[deleted_index], window)
         else:
             Fsg.popup("You must select a search term from the list, in order to delete it.")
+
+    elif event == 'preview_cv_button_clicked':
+        cv_path = values.get("CV_dropD")
+        if cv_path:
+            content = extract_docx_text(cv_path, Fsg)
+            preview_window = show_cv_preview(content)
+
+            # Handle the preview window's events
+            while True:
+                preview_event, _ = preview_window.read()
+                if preview_event in (Fsg.WINDOW_CLOSED, "close_preview_button_clicked"):
+                    break
+            preview_window.close()
+        else:
+            Fsg.popup("Please select a CV file to preview.")
+
 
     elif event == Fsg.WIN_CLOSED:
         break
