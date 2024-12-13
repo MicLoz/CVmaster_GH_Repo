@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ae32e59-51ce-4c8e-ab16-1f1e55aeb0b2" name="Changes" comment="functions to get Job Description and a Browse CV button">
-      <change afterPath="$PROJECT_DIR$/cv/cv_text_manager.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ui/cv_preview_display.py" afterDir="false" />
+    <list default="true" id="9ae32e59-51ce-4c8e-ab16-1f1e55aeb0b2" name="Changes" comment="CV Preview created">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainUI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/initialise_ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/initialise_ui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/cv_preview_display.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/cv_preview_display.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +62,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Python tests.Doctests in adapters.executor": "Debug",
-    "Python.cv_preview_display.executor": "Run",
+    "Python.cv_preview_display.executor": "Debug",
     "Python.file-Chooser-example.executor": "Run",
     "Python.initialise_ui.executor": "Run",
     "Python.mainUI.executor": "Run",
@@ -270,7 +268,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733696728183</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="CV Preview created">
+      <option name="closed" value="true" />
+      <created>1733780875097</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1733780875097</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -306,10 +312,18 @@
     <MESSAGE value="Latest working." />
     <MESSAGE value="Handling cookie popups by site. Not working." />
     <MESSAGE value="functions to get Job Description and a Browse CV button" />
-    <option name="LAST_COMMIT_MESSAGE" value="functions to get Job Description and a Browse CV button" />
+    <MESSAGE value="CV Preview created" />
+    <option name="LAST_COMMIT_MESSAGE" value="CV Preview created" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ui/cv_preview_display.py</url>
+          <line>28</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -318,5 +332,10 @@
         </breakpoint>
       </default-breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="job_description" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

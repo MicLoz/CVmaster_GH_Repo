@@ -1,3 +1,5 @@
+from FreeSimpleGUI import WINDOW_CLOSE_ATTEMPTED_EVENT
+
 from file_system.file_manager import *
 from ui.search_term_interact import *
 from ui.initialise_ui import *
@@ -27,6 +29,9 @@ theme_name = "DarkBlue4"
 selected_jobsite_index = 0
 selected_index_search_term = 0
 selected_search_term = {}
+content = ""
+preview_window = None
+content_store = ""
 
 window = create_ui(default_search_term, job_sites, search_terms, last_cv_path, theme_name)
 
@@ -186,18 +191,20 @@ while True:
     elif event == 'preview_cv_button_clicked':
         cv_path = values.get("CV_dropD")
         if cv_path:
-            content = extract_docx_text(cv_path, Fsg)
-            preview_window = show_cv_preview(content)
+            if content == "":
+                content = extract_docx_text(cv_path, Fsg)
+
+            preview_window = show_cv_preview(content, content_store)
 
             # Handle the preview window's events
             while True:
                 preview_event, _ = preview_window.read()
-                if preview_event in (Fsg.WINDOW_CLOSED, "close_preview_button_clicked"):
+                if preview_event in(WINDOW_CLOSE_ATTEMPTED_EVENT, "close_preview_button_clicked"):
+                    content_store = get_stored_content(preview_window)
+                    preview_window.close()
                     break
-            preview_window.close()
         else:
             Fsg.popup("Please select a CV file to preview.")
-
 
     elif event == Fsg.WIN_CLOSED:
         break
