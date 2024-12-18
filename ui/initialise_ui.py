@@ -3,18 +3,20 @@ import FreeSimpleGUI as Fsg
 def create_ui_elements(default_search_term, job_sites, search_terms, last_search_path):
     # Create the UI elements dynamically
     #region Labels
-    label = Fsg.Text("Job Site Configuration")
-    url_label = Fsg.Text("Enter Job Site URL")
-    search_term_label = Fsg.Text("Enter Job Search Term:")
-    location_label = Fsg.Text("Enter Location (optional)")
+    label = Fsg.Text("Job Site Configuration", justification="left")
+    blank_Label = Fsg.Text("")
+    url_label = Fsg.Text("Enter Job Site URL", justification="left")
+    search_prefix_label = Fsg.Text("URL Search Prefix", justification="left")
+    search_suffix_label = Fsg.Text("URL Search Suffix", justification="left")
+    location_label = Fsg.Text("Enter Location (optional)", justification="left")
+    search_term_label = Fsg.Text("Enter Job Search Term:", justification="left")
     job_sites_list_label = Fsg.Text("Current Job Sites:")
-    search_prefix_label = Fsg.Text("URL Search Prefix")
-    search_suffix_label = Fsg.Text("URL Search Suffix")
     replace_space_label = Fsg.Text("Replace spaces in search term with:")
     search_caps_rule_label = Fsg.Text("Search Caps Rule")
     search_term_space = " " * 70
     search_terms_list_label = Fsg.Text(f"{search_term_space}Current Search Terms:", key="search_terms_label")
     CV_browser_label = Fsg.Text("Choose existing CV to use as basis for Rewrite:")
+    CV_destination_label = Fsg.Text("Choose a folder for you rewritten CV:")
     #endregion
 
     #region Text Input Boxes
@@ -35,6 +37,7 @@ def create_ui_elements(default_search_term, job_sites, search_terms, last_search
     #region Drop Downs
     caps_rule_dropdwn = Fsg.InputCombo(values=['All Lowercase'], key="cap_dropD")
     CV_dropdown = Fsg.Combo(values=[last_search_path] ,key="CV_dropD")
+    CV_folder_dropdown = Fsg.Combo(values="" ,key="CV_dest_dropD", size=(35,1))
     #endregion
 
     #region Buttons
@@ -46,9 +49,16 @@ def create_ui_elements(default_search_term, job_sites, search_terms, last_search
     search_delete_button = Fsg.Button("Delete Search Term", key="srch-del")
     delete_button = Fsg.Button("Delete Job Site", key='delete_button_key')
     preview_CV_button = Fsg.Button("Preview CV", key="preview_cv_button_clicked")
+    #endregion
+
+    #region File Browsers
     CV_browse_button = Fsg.FileBrowse("Browse", key='clicked_cv_browse_button'
                                       ,file_types=(("Word Documents", "*.docx"),)
                                       ,enable_events=True,)
+    #endregion
+
+    #region Folder Browsers
+    CV_destination_folder_browse_button = Fsg.FolderBrowse("Browse", key="clicked_cv_destination_button")
     #endregion
 
 
@@ -67,18 +77,35 @@ def create_ui_elements(default_search_term, job_sites, search_terms, last_search
     CV_preview = Fsg.Multiline(size=(80, 20), key="-CV_PREVIEW-", disabled=True, autoscroll=False)
     #endregion
 
-    return [
+    #region Column Organisation
+    column1 = [
         [label],
-        [url_label, url_input],
-        [search_prefix_label, url_search_pref_input, search_suffix_label, url_search_suff_input],
-        [location_label, location_input],
-        [search_term_label, search_term_input, search_button, save_search_button],
+        [url_label],
+        [search_prefix_label],
+        [search_suffix_label],
+        [location_label],
+        [search_term_label]
+    ]
+
+    column2 = [
+        [blank_Label],
+        [url_input],
+        [url_search_pref_input],
+        [url_search_suff_input],
+        [location_input],
+        [search_term_input]
+    ]
+    #endregion
+
+    return [
+        [Fsg.Column(column1), Fsg.Column(column2)],
+        [search_button, save_search_button],
         [replace_space_label, replace_search_char, search_caps_rule_label, caps_rule_dropdwn],
         [add_button, edit_button, delete_button],
         [job_sites_list_label, search_terms_list_label],
         [job_sites_list_box, search_terms_list_box, search_default_button, search_delete_button],
-        [CV_browser_label],
-        [CV_dropdown, CV_browse_button],
+        [CV_browser_label, CV_dropdown, CV_browse_button],
+        [CV_destination_label, CV_folder_dropdown, CV_destination_folder_browse_button],
         [preview_CV_button]
     ]
 

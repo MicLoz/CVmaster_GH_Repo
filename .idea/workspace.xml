@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ae32e59-51ce-4c8e-ab16-1f1e55aeb0b2" name="Changes" comment="CV Preview created">
+    <list default="true" id="9ae32e59-51ce-4c8e-ab16-1f1e55aeb0b2" name="Changes" comment="CV Preview window show and hide completed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cv/cv_text_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/cv/cv_text_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainUI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/cv_preview_display.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/cv_preview_display.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/initialise_ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/initialise_ui.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +33,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="f1b812eec6d10096a439f049cb70caea7b91aee5" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -59,22 +60,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python tests.Doctests in adapters.executor": "Debug",
-    "Python.cv_preview_display.executor": "Debug",
-    "Python.file-Chooser-example.executor": "Run",
-    "Python.initialise_ui.executor": "Run",
-    "Python.mainUI.executor": "Run",
-    "Python.playwright_utils.executor": "Run",
-    "Python.request.executor": "Debug",
-    "Python.search_term_interact.executor": "Run",
-    "Python.web_functions.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/Mikel/PycharmProjects/CVmaster/data"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python tests.Doctests in adapters.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.cv_preview_display.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.file-Chooser-example.executor&quot;: &quot;Run&quot;,
+    &quot;Python.initialise_ui.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mainUI.executor&quot;: &quot;Run&quot;,
+    &quot;Python.playwright_utils.executor&quot;: &quot;Run&quot;,
+    &quot;Python.request.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.search_term_interact.executor&quot;: &quot;Run&quot;,
+    &quot;Python.web_functions.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Mikel/PycharmProjects/CVmaster/data&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Mikel\PycharmProjects\CVmaster\data" />

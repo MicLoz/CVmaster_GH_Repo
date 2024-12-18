@@ -190,19 +190,9 @@ while True:
 
     elif event == 'preview_cv_button_clicked':
         cv_path = values.get("CV_dropD")
+        dest_path = values.get("CV_dest_dropD")
         if cv_path:
-            if content == "":
-                content = extract_docx_text(cv_path, Fsg)
-
-            preview_window = show_cv_preview(content, content_store)
-
-            # Handle the preview window's events
-            while True:
-                preview_event, _ = preview_window.read()
-                if preview_event in(WINDOW_CLOSE_ATTEMPTED_EVENT, "close_preview_button_clicked"):
-                    content_store = get_stored_content(preview_window)
-                    preview_window.close()
-                    break
+            copy_docx_with_formatting(cv_path, dest_path)
         else:
             Fsg.popup("Please select a CV file to preview.")
 
