@@ -9,12 +9,17 @@ from web.scraper import *
 from web.playwright_utils import *
 from web.web_functions import *
 from cv.cv_text_manager import *
+from generic.generic_functions import *
 
 #Variables that initialise using function calls or similar
 search_terms = load_json(SEARCH_TERMS) # This has to be declared before it is used by the next line.
 default_search_term = get_existing_default_search_term_if_exists(search_terms)
+
 last_cv_paths = load_json(CV_PATHS)
-last_cv_path = last_cv_paths[0]['cvPath']
+last_cv_path = return_last_used_path(last_cv_paths, 'cvPath')
+
+last_dir_paths = load_json(DIR_PATHS)
+last_dir_path = return_last_used_path(last_dir_paths, 'dirPath')
 
 # Load the job sites initially
 job_sites = load_json(FILE_PATH)
@@ -32,8 +37,10 @@ selected_search_term = {}
 content = ""
 preview_window = None
 content_store = ""
+cv_path = ""
 
-window = create_ui(default_search_term, job_sites, search_terms, last_cv_path, theme_name)
+window = create_ui(default_search_term, job_sites, search_terms, last_cv_path, theme_name,
+                   last_cv_paths, last_cv_path, last_dir_paths, last_dir_path)
 
 # Event loop
 while True:
@@ -188,8 +195,36 @@ while True:
         else:
             Fsg.popup("You must select a search term from the list, in order to delete it.")
 
+    elif event == 'CV_dropD':
+        cv_path = values.get("CV_dropD").strip()
+        if cv_path:
+            if check_unique(cv_path, last_cv_paths) == True:
+                new_entry = {"cvPath": cv_path}
+                if len(last_cv_paths) < 5:
+                    last_cv_paths.append(new_entry)
+                else:
+                    last_cv_paths.pop(4)
+                    last_cv_paths.append(new_entry)
+
+                window["CV_dropD"].update(values=[path['cvPath'] for path in last_cv_paths])
+                save_json(last_cv_paths, CV_PATHS)
+
+    elif event == 'CV_dest_dropD':
+        #Dest path and dir path are the same thing.
+        dest_path = values.get("CV_dest_dropD").strip()
+        if dest_path:
+            if check_unique(dest_path, last_dir_paths) == True:
+                new_dir_entry = {"dirPath": dest_path}
+                if len(last_dir_paths) < 5:
+                    last_dir_paths.append(new_dir_entry)
+                else:
+                    last_dir_paths.pop(4)
+                    last_dir_paths.append(new_dir_entry)
+
+                window["CV_dest_dropD"].update(values=[path['dirPath'] for path in last_dir_paths])
+                save_json(last_dir_paths, DIR_PATHS)
+
     elif event == 'preview_cv_button_clicked':
-        cv_path = values.get("CV_dropD")
         dest_path = values.get("CV_dest_dropD")
         if cv_path:
             copy_docx_with_formatting(cv_path, dest_path)

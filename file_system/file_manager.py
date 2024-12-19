@@ -4,6 +4,7 @@ FILE_PATH = 'data/job_sites.json'
 SEARCH_TERMS = 'data/search_terms.json'
 WEB_DETAILS = 'data/job_sites_web_details.json'
 CV_PATHS = 'data/cv_paths.json'
+DIR_PATHS = 'data/dir_paths.json'
 
 def load_json(file_path):
     try:

@@ -1,6 +1,7 @@
 import FreeSimpleGUI as Fsg
 
-def create_ui_elements(default_search_term, job_sites, search_terms, last_search_path):
+def create_ui_elements(default_search_term, job_sites, search_terms, last_search_path, last_cv_paths, last_cv_path,
+                       last_dir_paths, last_dir_path):
     # Create the UI elements dynamically
     #region Labels
     label = Fsg.Text("Job Site Configuration", justification="left")
@@ -36,8 +37,11 @@ def create_ui_elements(default_search_term, job_sites, search_terms, last_search
 
     #region Drop Downs
     caps_rule_dropdwn = Fsg.InputCombo(values=['All Lowercase'], key="cap_dropD")
-    CV_dropdown = Fsg.Combo(values=[last_search_path] ,key="CV_dropD")
-    CV_folder_dropdown = Fsg.Combo(values="" ,key="CV_dest_dropD", size=(35,1))
+    CV_dropdown = Fsg.Combo(values=[path['cvPath'] for path in last_cv_paths], default_value=last_cv_path,
+                            key="CV_dropD", enable_events=True)
+    CV_folder_dropdown = Fsg.Combo(values=[path['dirPath'] for path in last_dir_paths],
+                                   default_value=last_dir_path
+                                   ,key="CV_dest_dropD", size=(35,1), enable_events=True)
     #endregion
 
     #region Buttons
@@ -54,7 +58,7 @@ def create_ui_elements(default_search_term, job_sites, search_terms, last_search
     #region File Browsers
     CV_browse_button = Fsg.FileBrowse("Browse", key='clicked_cv_browse_button'
                                       ,file_types=(("Word Documents", "*.docx"),)
-                                      ,enable_events=True,)
+                                      )
     #endregion
 
     #region Folder Browsers
@@ -109,9 +113,9 @@ def create_ui_elements(default_search_term, job_sites, search_terms, last_search
         [preview_CV_button]
     ]
 
-def create_ui(default_search_term, job_sites, search_terms, last_search_path, theme_name):
+def create_ui(default_search_term, job_sites, search_terms, last_search_path, theme_name, last_cv_paths, last_cv_path, last_dir_paths,last_dir_path):
     set_theme(theme_name)
-    layout = create_ui_elements(default_search_term, job_sites, search_terms, last_search_path)
+    layout = create_ui_elements(default_search_term, job_sites, search_terms, last_search_path, last_cv_paths, last_cv_path, last_dir_paths,last_dir_path)
     window = Fsg.Window('Job Sites Configuration', layout, font=('Helvetica', 14))
     return window
 

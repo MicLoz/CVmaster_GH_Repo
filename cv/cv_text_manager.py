@@ -51,7 +51,7 @@ def copy_docx_with_formatting(input_file, output_file):
             new_para.alignment = para.alignment
 
     #Append placeholder name to destination filepath
-    output_file = output_file + "TestCV.docx"
+    output_file = output_file + "/TestCV.docx"
     # Save the new document
     new_doc.save(output_file)
     print(f"New document saved as {output_file}")
